@@ -1,0 +1,1179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Family Planning</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #0d6efd;
+            --primary-dark: #0a58ca;
+            --primary-light: #cfe2ff;
+            --secondary-color: #6c757d;
+            --success-color: #198754;
+            --warning-color: #ffc107;
+            --danger-color: #dc3545;
+            --info-color: #0dcaf0;
+            --bg-gradient-start: #0d6efd;
+            --bg-gradient-end: #0a58ca;
+        }
+
+        body {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            min-height: 100vh;
+        }
+
+        .main-header {
+            background: linear-gradient(135deg, var(--bg-gradient-start) 0%, var(--bg-gradient-end) 100%);
+            padding: 1.5rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(13, 110, 253, 0.25);
+            margin-bottom: 1.5rem;
+        }
+
+        .main-header h1 {
+            color: white;
+            font-weight: 600;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .main-header .header-icon {
+            background: rgba(255,255,255,0.2);
+            padding: 12px;
+            border-radius: 50%;
+            display: inline-block;
+            margin-right: 12px;
+        }
+
+        .tab-content { display: none; }
+        .tab-content.active { display: block; }
+
+        .form-label {
+            font-weight: 600;
+            margin-bottom: 0.35rem;
+            color: #495057;
+        }
+
+        .section-title {
+            border-bottom: 3px solid var(--primary-color);
+            padding-bottom: 0.5rem;
+            margin-bottom: 1.25rem;
+            color: var(--primary-dark);
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .section-title i {
+            color: var(--primary-color);
+        }
+
+        .partner-section {
+            background: linear-gradient(135deg, #d1e7dd 0%, #a3cfbb 100%);
+            border: 2px solid var(--success-color);
+            border-radius: 10px;
+            padding: 1rem;
+            margin-top: 1rem;
+        }
+
+        .surgical-fields {
+            background: linear-gradient(135deg, #fff3cd 0%, #ffe69c 100%);
+            border: 3px solid #fd7e14;
+            border-radius: 10px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        /* Enhanced Tabs */
+        .nav-tabs {
+            border: none;
+            gap: 8px;
+            background: #fff;
+            padding: 8px;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+        }
+
+        .nav-tabs .nav-item {
+            flex: 1;
+            text-align: center;
+        }
+
+        .nav-tabs .nav-link {
+            border: none;
+            border-radius: 8px;
+            padding: 12px 16px;
+            font-weight: 600;
+            color: var(--secondary-color);
+            background: transparent;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .nav-tabs .nav-link::before {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            width: 0;
+            height: 3px;
+            background: var(--primary-color);
+            transition: all 0.3s ease;
+            transform: translateX(-50%);
+            border-radius: 3px 3px 0 0;
+        }
+
+        .nav-tabs .nav-link:not(.active) {
+            cursor: not-allowed;
+            opacity: 0.5;
+        }
+
+        .nav-tabs .nav-link.active {
+            background: var(--primary-color);
+            color: white;
+            box-shadow: 0 4px 12px rgba(13, 110, 253, 0.35);
+        }
+
+        .nav-tabs .nav-link.active::before {
+            width: 60%;
+            background: white;
+        }
+
+        .nav-tabs .nav-link i {
+            display: block;
+            font-size: 1.2rem;
+            margin-bottom: 4px;
+        }
+
+        /* Enhanced Card */
+        .card {
+            border: none;
+            border-radius: 16px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            overflow: hidden;
+        }
+
+        .card-header {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            border-bottom: 2px solid var(--primary-light);
+            padding: 1.25rem 1.5rem;
+            font-weight: 600;
+            color: var(--primary-dark);
+        }
+
+        .card-body {
+            padding: 1.5rem;
+        }
+
+        /* Form Controls */
+        .form-control, .form-select {
+            border: 2px solid #dee2e6;
+            border-radius: 8px;
+            padding: 0.625rem 0.875rem;
+            transition: all 0.3s ease;
+            background-color: #fff;
+        }
+
+        .form-control:focus, .form-select:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 4px rgba(13, 110, 253, 0.15);
+        }
+
+        .form-control::placeholder {
+            color: #adb5bd;
+        }
+
+        .form-control.is-invalid, .form-select.is-invalid {
+            border-color: var(--danger-color) !important;
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12' width='12' height='12' fill='none' stroke='%23dc3545' stroke-linecap='round' stroke-linejoin='round'%3e%3cpath d='M3 3l6 6M9 3l-6 6'/%3e%3c/svg%3e") !important;
+            background-repeat: no-repeat;
+            background-position: right calc(0.375em + 0.1875rem) center;
+            background-size: calc(0.75em + 0.375rem) calc(0.75em + 0.375rem);
+            animation: shake 0.5s ease-in-out;
+        }
+
+        /* Buttons */
+        .btn {
+            border-radius: 8px;
+            padding: 0.625rem 1.25rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
+            border: none;
+            box-shadow: 0 4px 12px rgba(13, 110, 253, 0.25);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(13, 110, 253, 0.35);
+        }
+
+        .btn-success {
+            background: linear-gradient(135deg, var(--success-color) 0%, #146c43 100%);
+            border: none;
+            box-shadow: 0 4px 12px rgba(25, 135, 84, 0.25);
+        }
+
+        .btn-success:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(25, 135, 84, 0.35);
+        }
+
+        .btn-outline-secondary {
+            border: 2px solid #dee2e6;
+        }
+
+        .btn-outline-secondary:hover {
+            background: #e9ecef;
+            border-color: #adb5bd;
+        }
+
+        /* Tables */
+        .table {
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .table thead {
+            background: linear-gradient(135deg, var(--primary-light) 0%, #e7f1ff 100%);
+        }
+
+        .table thead th {
+            border-bottom: 2px solid var(--primary-color);
+            color: var(--primary-dark);
+            font-weight: 600;
+        }
+
+        .table-striped > tbody > tr:nth-of-type(odd) {
+            --bs-table-accent-bg: #f8f9fa;
+        }
+
+        /* Alert */
+        .alert {
+            border-radius: 10px;
+            border: none;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        /* Record Badge */
+        #recordBadge {
+            background: linear-gradient(135deg, var(--success-color) 0%, #146c43 100%) !important;
+            padding: 0.75rem 1.25rem;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(25, 135, 84, 0.25);
+        }
+
+        /* Animations */
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+            20%, 40%, 60%, 80% { transform: translateX(5px); }
+        }
+
+        @keyframes pulse-red {
+            0% { box-shadow: 0 0 0 0 rgba(220, 53, 69, 0.7); }
+            70% { box-shadow: 0 0 0 10px rgba(220, 53, 69, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(220, 53, 69, 0); }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .tab-content.active {
+            animation: fadeIn 0.4s ease-out;
+        }
+
+        .field-shake {
+            animation: shake 0.5s ease-in-out, pulse-red 1s ease-in-out 2;
+        }
+
+        .loading { opacity: 0.5; pointer-events: none; }
+
+        /* Info Box */
+        .info-box {
+            background: linear-gradient(135deg, #e7f1ff 0%, #cfe2ff 100%);
+            border-left: 4px solid var(--primary-color);
+            border-radius: 8px;
+            padding: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        /* Checkbox custom styling */
+        .form-check-input:checked {
+            background-color: var(--primary-color);
+            border-color: var(--primary-color);
+        }
+
+        /* Row spacing */
+        .row.g-3 {
+            --bs-gutter-y: 1rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container py-4">
+        <div class="main-header text-center">
+            <h1 class="d-inline-flex align-items-center">
+                <span class="header-icon">
+                    <i class="fas fa-heartbeat fa-lg text-white"></i>
+                </span>
+                Family Planning Module
+            </h1>
+            <p class="text-white-50 mb-0 mt-2">Client Registration & Follow-up System</p>
+        </div>
+
+        <!-- Alert Messages -->
+        <div id="alertMessage" class="alert alert-dismissible fade show" style="display: none;">
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            <span id="alertText"></span>
+        </div>
+
+        <!-- Record ID Badge -->
+        <div id="recordBadge" class="badge bg-primary fs-6 mb-3" style="display: none;">
+            Record ID: <span id="recordIdDisplay"></span>
+        </div>
+
+        <form id="famForm">
+            <!-- Tabs -->
+            <ul class="nav nav-tabs mb-3" id="famTabs" role="tablist">
+                <li class="nav-item">
+                    <button class="nav-link active" data-tab="generalInfo">
+                        <i class="fas fa-user"></i>
+                        General Info
+                    </button>
+                </li>
+                <li class="nav-item">
+                    <button class="nav-link" data-tab="consultation">
+                        <i class="fas fa-stethoscope"></i>
+                        Consultation
+                    </button>
+                </li>
+                <li class="nav-item">
+                    <button class="nav-link" data-tab="investigation">
+                        <i class="fas fa-flask"></i>
+                        Investigation
+                    </button>
+                </li>
+                <li class="nav-item">
+                    <button class="nav-link" data-tab="conclusion">
+                        <i class="fas fa-clipboard-check"></i>
+                        Conclusion
+                    </button>
+                </li>
+                <li class="nav-item">
+                    <button class="nav-link" data-tab="treatment">
+                        <i class="fas fa-pills"></i>
+                        Treatment
+                    </button>
+                </li>
+                <li class="nav-item">
+                    <button class="nav-link" data-tab="followUp">
+                        <i class="fas fa-calendar-check"></i>
+                        Follow-up
+                    </button>
+                </li>
+                <li class="nav-item">
+                    <button class="nav-link" data-tab="discharge">
+                        <i class="fas fa-sign-out-alt"></i>
+                        Discharge
+                    </button>
+                </li>
+            </ul>
+
+            <div class="card">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <span><i class="fas fa-clipboard-list me-2"></i>Family Planning Form</span>
+                    <span class="badge bg-primary" id="sectionBadge">Section 1 of 7</span>
+                </div>
+                <div class="card-body">
+                    <!-- General Info Tab -->
+                    <div class="tab-content active" id="generalInfo">
+                        <h5 class="section-title"><i class="fas fa-user-circle"></i> Client Information</h5>
+                        <div class="row g-3">
+                            <div class="col-md-4">
+                                <label class="form-label">Client UPID</label>
+                                <input type="text" class="form-control" name="upid" list="upidList" autocomplete="off" placeholder="Type to search...">
+                                <datalist id="upidList"></datalist>
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label">Consultation Date <span class="text-danger">*</span></label>
+                                <input type="date" class="form-control" name="consultation_date" required>
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label">Full Name <span class="text-danger">*</span></label>
+                                <input type="text" class="form-control" name="full_name" required>
+                                <div class="invalid-feedback">Full Name is required</div>
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label">Practitioner (ID)</label>
+                                <input type="text" class="form-control" name="practitioner_id">
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label">Practitioner Name</label>
+                                <input type="text" class="form-control" name="practitioner_name">
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label">Date of Birth</label>
+                                <input type="date" class="form-control" name="date_of_birth" onchange="calculateAge()">
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label">Age (Auto-calculated)</label>
+                                <input type="text" class="form-control bg-light" name="age" readonly>
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label">Gender <span class="text-danger">*</span></label>
+                                <select class="form-select" name="gender" required>
+                                    <option value="">Select Gender</option>
+                                    <option value="female">Female</option>
+                                    <option value="male">Male</option>
+                                    <option value="other">Other</option>
+                                </select>
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label">Phone Number</label>
+                                <input type="tel" class="form-control" name="phone_number" placeholder="+250...">
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label">Education Level</label>
+                                <select class="form-select" name="education_level">
+                                    <option value="">Select Level</option>
+                                    <option value="none">No Formal Education</option>
+                                    <option value="primary">Primary</option>
+                                    <option value="secondary">Secondary</option>
+                                    <option value="university">University/Higher</option>
+                                </select>
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label">Profession</label>
+                                <input type="text" class="form-control" name="profession">
+                            </div>
+                        </div>
+
+                        <h5 class="section-title mt-4"><i class="fas fa-map-marker-alt"></i> Address Information</h5>
+                        <div class="row g-3">
+                            <div class="col-md-4">
+                                <label class="form-label">Province</label>
+                                <input type="text" class="form-control" name="province">
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label">District</label>
+                                <input type="text" class="form-control" name="district">
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label">Sector</label>
+                                <input type="text" class="form-control" name="sector">
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label">Cell</label>
+                                <input type="text" class="form-control" name="cellule">
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label">Village</label>
+                                <input type="text" class="form-control" name="village">
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label">Catchment Area</label>
+                                <input type="text" class="form-control" name="catchment_area">
+                            </div>
+                        </div>
+
+                        <h5 class="section-title mt-4"><i class="fas fa-ring"></i> Marital Information</h5>
+                        <div class="row g-3">
+                            <div class="col-md-4">
+                                <label class="form-label">Marital Status</label>
+                                <select class="form-select" name="marital_status">
+                                    <option value="">Select Status</option>
+                                    <option value="single">Single</option>
+                                    <option value="married">Married</option>
+                                    <option value="divorced">Divorced</option>
+                                    <option value="widowed">Widowed</option>
+                                    <option value="cohabiting">Cohabiting</option>
+                                </select>
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label">Accompanied by Partner?</label>
+                                <select class="form-select" name="accompanied_by_partner" onchange="togglePartnerSection()">
+                                    <option value="no">No</option>
+                                    <option value="yes">Yes</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div id="partnerSection" class="row g-3 mt-3 p-3 partner-section rounded" style="display: none;">
+                            <h6 class="border-bottom pb-2"><i class="fas fa-heart me-2 text-success"></i>Partner Details</h6>
+                            <div class="col-md-4">
+                                <label class="form-label">Partner Full Name</label>
+                                <input type="text" class="form-control optional" name="partner_full_name">
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label">Partner Date of Birth</label>
+                                <input type="date" class="form-control optional" name="partner_date_of_birth">
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label">Partner Phone Number</label>
+                                <input type="tel" class="form-control optional" name="partner_phone_number">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Consultation Tab -->
+                    <div class="tab-content" id="consultation">
+                        <div class="info-box">
+                            <div class="d-flex align-items-center gap-3">
+                                <i class="fas fa-question-circle fa-2x text-primary"></i>
+                                <div>
+                                    <label class="form-label fw-bold mb-1">Is the patient consulting for Vasectomy or Tubal ligation?</label>
+                                    <select class="form-select w-auto" name="is_surgical" onchange="toggleSurgicalFields()">
+                                        <option value="no" selected>No (Non-Surgical Path)</option>
+                                        <option value="yes">Yes (Surgical Path)</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="surgicalFields" class="p-3 surgical-fields rounded mb-4" style="display: none;">
+                            <h6 class="fw-bold"><i class="fas fa-user-md text-warning me-2"></i>Surgical Family Planning Screening</h6>
+                            <div class="row g-3">
+                                <div class="col-md-6">
+                                    <label class="form-label">Method Offered / Required</label>
+                                    <input type="text" class="form-control optional" name="method_offered">
+                                </div>
+                                <div class="col-12"><p class="fw-bold mb-2">Check if patient has history of:</p></div>
+                                <div class="col-md-4"><div class="form-check"><input class="form-check-input" type="checkbox" name="history_heart_disease"><label class="form-check-label">Heart disease</label></div></div>
+                                <div class="col-md-4"><div class="form-check"><input class="form-check-input" type="checkbox" name="history_liver_disease"><label class="form-check-label">Liver disease / jaundice</label></div></div>
+                                <div class="col-md-4"><div class="form-check"><input class="form-check-input" type="checkbox" name="history_kidney_disease"><label class="form-check-label">Kidney / renal disease</label></div></div>
+                                <div class="col-md-4"><div class="form-check"><input class="form-check-input" type="checkbox" name="history_diabetes"><label class="form-check-label">Diabetes mellitus</label></div></div>
+                                <div class="col-md-4"><div class="form-check"><input class="form-check-input" type="checkbox" name="history_hypertension"><label class="form-check-label">Hypertension</label></div></div>
+                            </div>
+                        </div>
+
+                        <h5 class="section-title"><i class="fas fa-baby"></i> Health & Obstetric History</h5>
+                        <div class="row g-3">
+                            <div class="col-md-3"><label class="form-label">Gravidity</label><input type="number" class="form-control" name="gravidity"></div>
+                            <div class="col-md-3"><label class="form-label">Parity</label><input type="number" class="form-control" name="parity"></div>
+                            <div class="col-md-3"><label class="form-label">Birth Spacing</label><input type="text" class="form-control" name="birth_spacing"></div>
+                            <div class="col-md-3"><label class="form-label">Living Children</label><input type="number" class="form-control" name="living_children"></div>
+                            <div class="col-md-3"><label class="form-label">Children Deceased</label><input type="number" class="form-control" name="children_deceased"></div>
+                            <div class="col-md-3"><label class="form-label">Desired No. of Children</label><input type="number" class="form-control" name="desired_children"></div>
+                            <div class="col-md-3"><label class="form-label">LMP (First Date)</label><input type="date" class="form-control" name="lmp_first_date"></div>
+                            <div class="col-md-3"><label class="form-label">Pregnancy Status</label><select class="form-select" name="pregnancy_status"><option value="">Select</option><option value="negative">Negative</option><option value="positive">Positive</option><option value="unknown">Unknown</option></select></div>
+                            <div class="col-md-3"><label class="form-label">Date of Last Abortion</label><input type="date" class="form-control" name="date_of_last_abortion"></div>
+                            <div class="col-md-3"><label class="form-label">Birth Limitation</label><input type="text" class="form-control" name="birth_limitation"></div>
+                            <div class="col-md-3"><label class="form-label">Menstrual Regularity</label><select class="form-select" name="menstrual_regularity"><option value="">Select</option><option value="regular">Regular</option><option value="irregular">Irregular</option></select></div>
+                            <div class="col-md-3"><label class="form-label">Breastfeeding Status</label><input type="text" class="form-control" name="breastfeeding_status"></div>
+                            <div class="col-md-6"><label class="form-label">Level of Sexual Activity</label><input type="text" class="form-control" name="sexual_activity_level"></div>
+                            <div class="col-md-6"><label class="form-label">No. of Sexual Partners</label><input type="number" class="form-control" name="sexual_partners_count"></div>
+                            <div class="col-12"><label class="form-label">History of Pregnancy Complications</label><textarea class="form-control" name="pregnancy_complications" rows="2"></textarea></div>
+                        </div>
+
+                        <h5 class="section-title mt-4"><i class="fas fa-hand-holding-medical"></i> Consultation & Utilization</h5>
+                        <div class="row g-3">
+                            <div class="col-md-4"><label class="form-label">Consultation Type</label><input type="text" class="form-control" name="consultation_type"></div>
+                            <div class="col-md-4"><label class="form-label">Used Contraception Before?</label><select class="form-select" name="used_contraception_before"><option value="">Select</option><option value="no">No</option><option value="yes">Yes</option></select></div>
+                            <div class="col-md-4"><label class="form-label">Desired FP Method</label><input type="text" class="form-control" name="desired_fp_method"></div>
+                            <div class="col-12"><label class="form-label">Previous Method(s) Used</label><textarea class="form-control" name="previous_methods_used" rows="2"></textarea></div>
+                            <div class="col-md-4"><label class="form-label">Transport to Facility</label><input type="text" class="form-control" name="transport_to_facility"></div>
+                            <div class="col-md-4"><label class="form-label">Transport Back Home</label><input type="text" class="form-control" name="transport_back_home"></div>
+                            <div class="col-md-4"><label class="form-label">Referring Facility</label><input type="text" class="form-control" name="referring_facility"></div>
+                            <div class="col-md-4"><label class="form-label">Knowledge of other methods</label><input type="text" class="form-control" name="knowledge_of_other_methods"></div>
+                            <div class="col-md-4"><label class="form-label">Person who informed client</label><input type="text" class="form-control" name="person_informed_client"></div>
+                            <div class="col-md-4"><label class="form-label">Rumors heard about FP</label><input type="text" class="form-control" name="rumors_heard_about_fp"></div>
+                            <div class="col-12"><label class="form-label">Reasons for not wanting more children</label><textarea class="form-control" name="reasons_not_wanting_children" rows="2"></textarea></div>
+                        </div>
+
+                        <div class="row g-3 mt-3 p-3 bg-light rounded">
+                            <div class="col-md-3"><label class="form-label">Respiratory Illness</label><select class="form-select" name="respiratory_illness"><option value="">Select</option><option value="no">No</option><option value="yes">Yes</option></select></div>
+                            <div class="col-md-3"><label class="form-label">Anemia/Bleeding Dis.</label><select class="form-select" name="anemia_bleeding_dis"><option value="">Select</option><option value="no">No</option><option value="yes">Yes</option></select></div>
+                            <div class="col-md-3"><label class="form-label">Genital Abnormalities</label><select class="form-select" name="genital_abnormalities"><option value="">Select</option><option value="no">No</option><option value="yes">Yes</option></select></div>
+                            <div class="col-md-3"><label class="form-label">Current Medications</label><input type="text" class="form-control" name="current_medications"></div>
+                        </div>
+
+                        <h5 class="section-title mt-4"><i class="fas fa-stethoscope"></i> Physical Examination</h5>
+                        <div class="row g-3">
+                            <div class="col-md-2"><label class="form-label">Weight (kg)</label><input type="number" class="form-control" name="weight_kg"></div>
+                            <div class="col-md-2"><label class="form-label">Height (cm)</label><input type="number" class="form-control" name="height_cm"></div>
+                            <div class="col-md-2"><label class="form-label">Temp (°C)</label><input type="number" step="0.1" class="form-control" name="temperature_c"></div>
+                            <div class="col-md-2"><label class="form-label">RR</label><input type="number" class="form-control" name="rr"></div>
+                            <div class="col-md-2"><label class="form-label">Pulse (bpm)</label><input type="number" class="form-control" name="pulse_bpm"></div>
+                            <div class="col-md-2"><label class="form-label">SpO₂ (%)</label><input type="number" class="form-control" name="spo2_percentage"></div>
+                            <div class="col-md-6"><label class="form-label">General Condition</label><textarea class="form-control" name="general_condition" rows="2"></textarea></div>
+                            <div class="col-md-3"><label class="form-label">Heart Observations</label><input type="text" class="form-control" name="heart_observations"></div>
+                            <div class="col-md-3"><label class="form-label">Abdomen / Palpation</label><input type="text" class="form-control" name="abdomen_palpation"></div>
+                        </div>
+                    </div>
+
+                    <!-- Investigation Tab -->
+                    <div class="tab-content" id="investigation">
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <h5 class="mb-0"><i class="fas fa-flask me-2 text-primary"></i>Investigations</h5>
+                            <button type="button" class="btn btn-primary btn-sm" onclick="addInvestigationRow()">
+                                <i class="fas fa-plus"></i> Add Investigation
+                            </button>
+                        </div>
+                        <div id="investigationsContainer">
+                            <table class="table table-bordered" id="investigationsTable">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th>Examination Name</th>
+                                        <th>Results</th>
+                                        <th>Date Performed</th>
+                                        <th style="width: 50px;">Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="investigationsBody"></tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- Conclusion Tab -->
+                    <div class="tab-content" id="conclusion">
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label class="form-label">Diagnosis</label>
+                                <textarea class="form-control" name="diagnosis" rows="3"></textarea>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Conclusion</label>
+                                <textarea class="form-control" name="conclusion_text" rows="3"></textarea>
+                            </div>
+                            <div class="col-12">
+                                <label class="form-label">FP methods for which the client is eligible</label>
+                                <input type="text" class="form-control" name="eligible_fp_methods">
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label">Method initiation date</label>
+                                <input type="date" class="form-control" name="method_initiation_date">
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label">First follow-up appointment date</label>
+                                <input type="date" class="form-control" name="first_followup_date">
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label">Duration the method will last</label>
+                                <input type="text" class="form-control" name="method_duration" placeholder="e.g., 3 years">
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Chosen method by the client</label>
+                                <input type="text" class="form-control" name="chosen_method">
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Method offered by the provider</label>
+                                <input type="text" class="form-control" name="method_offered_by_provider">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Treatment Tab -->
+                    <div class="tab-content" id="treatment">
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <h5 class="mb-0"><i class="fas fa-pills me-2 text-primary"></i>Treatments / Prescriptions</h5>
+                            <button type="button" class="btn btn-primary btn-sm" onclick="addTreatmentRow()">
+                                <i class="fas fa-plus"></i> Add Treatment
+                            </button>
+                        </div>
+                        <div id="treatmentsContainer">
+                            <table class="table table-bordered" id="treatmentsTable">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th>Medication Name</th>
+                                        <th>Dosage</th>
+                                        <th>Route</th>
+                                        <th>Frequency</th>
+                                        <th>Duration</th>
+                                        <th>Date Prescribed</th>
+                                        <th style="width: 50px;">Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="treatmentsBody"></tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- Follow-up Tab -->
+                    <div class="tab-content" id="followUp">
+                        <div class="row g-3">
+                            <div class="col-md-4"><label class="form-label">Visit Date</label><input type="date" class="form-control" name="visit_date"></div>
+                            <div class="col-md-4"><label class="form-label">Consultation Type</label><input type="text" class="form-control" name="consultation_type"></div>
+                            <div class="col-md-4"><label class="form-label">Practitioner Name</label><input type="text" class="form-control" name="practitioner_name"></div>
+                            <div class="col-md-4"><label class="form-label">Weight (kg)</label><input type="number" class="form-control" name="weight_kg"></div>
+                            <div class="col-md-4"><label class="form-label">Liver examination</label><input type="text" class="form-control" name="liver_examination"></div>
+                            <div class="col-md-4"><label class="form-label">Breast examination</label><input type="text" class="form-control" name="breast_examination"></div>
+                            <div class="col-md-4"><label class="form-label">BP Systolic</label><input type="number" class="form-control" name="bp_systolic"></div>
+                            <div class="col-md-4"><label class="form-label">BP Diastolic</label><input type="number" class="form-control" name="bp_diastolic"></div>
+                            <div class="col-md-4"><label class="form-label">BP Interpretation</label><input type="text" class="form-control" name="bp_interpretation"></div>
+                            <div class="col-md-12"><label class="form-label">Chief Complaints</label><textarea class="form-control" name="chief_complaints" rows="2"></textarea></div>
+                            <div class="col-md-4"><label class="form-label">Previous FP method</label><input type="text" class="form-control" name="previous_fp_method"></div>
+                            <div class="col-md-4"><label class="form-label">FP method provided</label><input type="text" class="form-control" name="fp_method_provided"></div>
+                            <div class="col-md-4"><label class="form-label">Method Duration</label><input type="text" class="form-control" name="method_duration"></div>
+                            <div class="col-md-12"><label class="form-label">Next Appointment Date</label><input type="date" class="form-control" name="next_appointment_date"></div>
+                        </div>
+                    </div>
+
+                    <!-- Discharge Tab -->
+                    <div class="tab-content" id="discharge">
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label class="form-label">Discharging status</label>
+                                <select class="form-select" name="discharging_status">
+                                    <option value="">Select status...</option>
+                                    <option value="phased-out">Phased out</option>
+                                    <option value="loss-of-support">Loss of support</option>
+                                    <option value="transferred-out">Transferred out</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Discharge date</label>
+                                <input type="date" class="form-control" name="discharge_date">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Navigation Buttons -->
+                <div class="card-footer d-flex justify-content-between">
+                    <button type="button" class="btn btn-outline-secondary" id="prevBtn" onclick="prevTab()">
+                        <i class="fas fa-arrow-left me-1"></i> Previous
+                    </button>
+                    <button type="button" class="btn btn-primary" id="nextBtn" onclick="validateAndNext()">
+                        Next <i class="fas fa-arrow-right ms-1"></i>
+                    </button>
+                    <button type="button" class="btn btn-success" id="submitBtn" onclick="validateAndSubmit()" style="display: none;">
+                        <i class="fas fa-check-circle me-1"></i> Submit
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        const API_BASE = window.location.protocol + '//' + window.location.host + '/fam/APIs/index.php';
+        let currentTab = 0;
+        let recordId = null;
+        let formData = {
+            investigations: [],
+            treatments: [],
+            consultation: {},
+            conclusion: {},
+            followups: [],
+            discharge: {}
+        };
+        const tabs = ['generalInfo', 'consultation', 'investigation', 'conclusion', 'treatment', 'followUp', 'discharge'];
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            // Check for record ID in URL
+            const urlParams = new URLSearchParams(window.location.search);
+            const id = urlParams.get('id');
+            if (id) loadRecord(id);
+
+            // Note: Tab clicks are disabled via CSS (pointer-events: none)
+            // Only the active tab is clickable for visual feedback
+
+            // Add initial rows
+            addInvestigationRow();
+            addTreatmentRow();
+
+            // Initialize button states
+            updateNavButtons();
+
+            // Load UPID list for dropdown
+            loadUpidList();
+
+            // Handle UPID selection - auto-fill patient details
+            const upidInput = document.querySelector('[name="upid"]');
+            upidInput.addEventListener('change', async (e) => {
+                const upid = e.target.value;
+                if (upid.length >= 3) {
+                    await fetchPatientDetails(upid);
+                }
+            });
+        });
+
+        // Fetch patient details by UPID
+        async function fetchPatientDetails(upid) {
+            try {
+                console.log('Searching for UPID:', upid);
+                const url = `${API_BASE}?section=patients&search=${encodeURIComponent(upid)}&limit=1`;
+                const response = await fetch(url);
+                console.log('Search response status:', response.status);
+                const patients = await response.json();
+                console.log('Search results:', patients);
+
+                if (patients.length > 0) {
+                    const p = patients[0];
+                    // Auto-fill patient details if fields are empty or user confirms
+                    if (!document.querySelector('[name="full_name"]').value || confirm(`Load patient: ${p.name}?`)) {
+                        // Basic info
+                        document.querySelector('[name="full_name"]').value = p.name || '';
+                        document.querySelector('[name="phone_number"]').value = p.phone || '';
+
+                        // Date of birth (the API returns DOB in date_of_birth field)
+                        if (p.date_of_birth) {
+                            document.querySelector('[name="date_of_birth"]').value = p.date_of_birth;
+                            calculateAge(); // Auto-calculate age
+                        }
+
+                        // Gender (1=male, 2=female)
+                        const genderSelect = document.querySelector('[name="gender"]');
+                        if (p.sex == 1) genderSelect.value = 'male';
+                        else if (p.sex == 2) genderSelect.value = 'female';
+                        else genderSelect.value = '';
+
+                        // Address info (using IDs - you can enhance to show names)
+                        if (p.province) document.querySelector('[name="province"]').value = p.province;
+                        if (p.district) document.querySelector('[name="district"]').value = p.district;
+                        if (p.sector) document.querySelector('[name="sector"]').value = p.sector;
+                        if (p.cellule) document.querySelector('[name="cellule"]').value = p.cellule;
+                        if (p.village) document.querySelector('[name="village"]').value = p.village;
+                    }
+                }
+            } catch (err) {
+                console.error('Failed to load patient details:', err);
+            }
+        }
+
+        // Load UPID list from API
+        async function loadUpidList() {
+            try {
+                console.log('Loading UPID list from:', API_BASE);
+                const url = `${API_BASE}?section=patients&limit=100`;
+                const response = await fetch(url);
+                console.log('Response status:', response.status);
+                const patients = await response.json();
+                console.log('Patients loaded:', patients.length);
+
+                const datalist = document.getElementById('upidList');
+                datalist.innerHTML = patients.map(p =>
+                    `<option value="${p.upid}">${p.label}</option>`
+                ).join('');
+            } catch (err) {
+                console.error('Failed to load UPID list:', err);
+                alert('Error loading UPID list: ' + err.message);
+            }
+        }
+
+        function updateNavButtons() {
+            const isLastTab = currentTab === tabs.length - 1;
+            const isFirstTab = currentTab === 0;
+            document.getElementById('prevBtn').style.display = isFirstTab ? 'none' : 'inline-block';
+            document.getElementById('nextBtn').style.display = isLastTab ? 'none' : 'inline-block';
+            document.getElementById('submitBtn').style.display = isLastTab ? 'inline-block' : 'none';
+        }
+
+        function showTab(index) {
+            document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('#famTabs button').forEach(b => b.classList.remove('active'));
+            document.getElementById(tabs[index]).classList.add('active');
+            document.querySelectorAll('#famTabs button')[index].classList.add('active');
+            currentTab = index;
+
+            // Update section badge
+            document.getElementById('sectionBadge').textContent = `Section ${index + 1} of ${tabs.length}`;
+
+            // Update navigation buttons
+            updateNavButtons();
+        }
+
+        function nextTab() { if (currentTab < tabs.length - 1) showTab(currentTab + 1); }
+        function prevTab() { if (currentTab > 0) showTab(currentTab - 1); }
+
+        function validateCurrentTab() {
+            let isValid = true;
+
+            // Clear all previous validation
+            document.querySelectorAll('.is-invalid').forEach(el => {
+                el.classList.remove('is-invalid');
+                el.classList.remove('field-shake');
+            });
+
+            // Validate ALL fields in current tab (input, select, textarea - not read-only)
+            const tabId = tabs[currentTab];
+            const tabContent = document.getElementById(tabId);
+            const allFields = tabContent.querySelectorAll('input:not([readonly]), select, textarea');
+
+            allFields.forEach(field => {
+                // Skip checkboxes and fields that are intentionally optional
+                if (field.type !== 'checkbox' && !field.classList.contains('optional')) {
+                    if (!field.value.trim()) {
+                        field.classList.add('is-invalid');
+                        field.classList.add('field-shake');
+                        isValid = false;
+                    }
+                }
+            });
+
+            if (!isValid) {
+                showAlert('Please fill in ALL fields in this page before proceeding', 'danger');
+                // Scroll to first invalid field
+                const firstInvalid = tabContent.querySelector('.is-invalid');
+                if (firstInvalid) firstInvalid.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }
+
+            return isValid;
+        }
+
+        function validateAndNext() {
+            if (validateCurrentTab()) {
+                nextTab();
+            }
+        }
+
+        function validateAndSubmit() {
+            // Clear all previous validation
+            document.querySelectorAll('.is-invalid').forEach(el => {
+                el.classList.remove('is-invalid');
+                el.classList.remove('field-shake');
+            });
+
+            // Validate ALL fields in ALL tabs
+            let allValid = true;
+            tabs.forEach(tabId => {
+                const tabContent = document.getElementById(tabId);
+                const allFields = tabContent.querySelectorAll('input:not([readonly]), select, textarea');
+
+                allFields.forEach(field => {
+                    if (field.type !== 'checkbox' && !field.classList.contains('optional')) {
+                        if (!field.value.trim()) {
+                            field.classList.add('is-invalid');
+                            field.classList.add('field-shake');
+                            allValid = false;
+                        }
+                    }
+                });
+            });
+
+            if (!allValid) {
+                showAlert('Please fill in ALL fields in ALL pages before submitting', 'danger');
+                const firstInvalid = document.querySelector('.is-invalid');
+                if (firstInvalid) firstInvalid.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                return;
+            }
+
+            // Submit the form
+            saveRecord();
+        }
+
+        function calculateAge() {
+            const dob = document.querySelector('[name="date_of_birth"]').value;
+            if (dob) {
+                const birth = new Date(dob);
+                const today = new Date();
+                let age = today.getFullYear() - birth.getFullYear();
+                const m = today.getMonth() - birth.getMonth();
+                if (m < 0 || (m === 0 && today.getDate() < birth.getDate())) age--;
+                document.querySelector('[name="age"]').value = age >= 0 ? age : 0;
+            }
+        }
+
+        function togglePartnerSection() {
+            const val = document.querySelector('[name="accompanied_by_partner"]').value;
+            document.getElementById('partnerSection').style.display = val === 'yes' ? 'flex' : 'none';
+        }
+
+        function toggleSurgicalFields() {
+            const val = document.querySelector('[name="is_surgical"]').value;
+            document.getElementById('surgicalFields').style.display = val === 'yes' ? 'block' : 'none';
+        }
+
+        function addInvestigationRow(data = {}) {
+            const tbody = document.getElementById('investigationsBody');
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td><input type="text" class="form-control" name="inv_name[]" value="${data.examination_name || ''}" placeholder="e.g., Blood Sugar"></td>
+                <td><input type="text" class="form-control" name="inv_results[]" value="${data.results || ''}" placeholder="Results"></td>
+                <td><input type="date" class="form-control" name="inv_date[]" value="${data.date_performed || ''}"></td>
+                <td><button type="button" class="btn btn-danger btn-sm" onclick="this.closest('tr').remove()">&times;</button></td>
+            `;
+            tbody.appendChild(row);
+        }
+
+        function addTreatmentRow(data = {}) {
+            const tbody = document.getElementById('treatmentsBody');
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td><input type="text" class="form-control" name="med_name[]" value="${data.medication_name || ''}"></td>
+                <td><input type="text" class="form-control" name="med_dosage[]" value="${data.dosage || ''}"></td>
+                <td><input type="text" class="form-control" name="med_route[]" value="${data.route || ''}"></td>
+                <td><input type="text" class="form-control" name="med_frequency[]" value="${data.frequency || ''}"></td>
+                <td><input type="text" class="form-control" name="med_duration[]" value="${data.duration || ''}"></td>
+                <td><input type="date" class="form-control" name="med_date[]" value="${data.date_prescribed || ''}"></td>
+                <td><button type="button" class="btn btn-danger btn-sm" onclick="this.closest('tr').remove()">&times;</button></td>
+            `;
+            tbody.appendChild(row);
+        }
+
+        function getFormData() {
+            const form = document.getElementById('famForm');
+            const data = {};
+
+            // Simple form fields
+            const simpleFields = ['upid', 'consultation_date', 'full_name', 'practitioner_id', 'practitioner_name',
+                'date_of_birth', 'age', 'gender', 'phone_number', 'education_level', 'profession',
+                'province', 'district', 'sector', 'cellule', 'village', 'catchment_area',
+                'marital_status', 'accompanied_by_partner', 'partner_full_name', 'partner_date_of_birth', 'partner_phone_number',
+                'is_surgical', 'method_offered', 'gravidity', 'parity', 'birth_spacing', 'living_children',
+                'children_deceased', 'desired_children', 'lmp_first_date', 'pregnancy_status', 'date_of_last_abortion',
+                'birth_limitation', 'menstrual_regularity', 'breastfeeding_status', 'sexual_activity_level',
+                'sexual_partners_count', 'pregnancy_complications', 'consultation_type', 'used_contraception_before',
+                'desired_fp_method', 'previous_methods_used', 'transport_to_facility', 'transport_back_home',
+                'referring_facility', 'knowledge_of_other_methods', 'person_informed_client', 'rumors_heard_about_fp',
+                'reasons_not_wanting_children', 'respiratory_illness', 'anemia_bleeding_dis', 'genital_abnormalities',
+                'current_medications', 'weight_kg', 'height_cm', 'temperature_c', 'rr', 'pulse_bpm', 'spo2_percentage',
+                'general_condition', 'heart_observations', 'abdomen_palpation', 'diagnosis', 'conclusion_text',
+                'eligible_fp_methods', 'method_initiation_date', 'first_followup_date', 'method_duration',
+                'chosen_method', 'method_offered_by_provider', 'visit_date', 'practitioner_name', 'chief_complaints',
+                'next_appointment_date', 'liver_examination', 'breast_examination', 'leg_examination',
+                'bp_systolic', 'bp_diastolic', 'bp_interpretation', 'vulva', 'cervix', 'uterus',
+                'other_findings', 'gynecological_conclusion', 'previous_fp_method', 'fp_method_provided',
+                'discharging_status', 'discharge_date'];
+
+            simpleFields.forEach(field => {
+                const el = form.querySelector(`[name="${field}"]`);
+                if (el) data[field] = el.value;
+            });
+
+            // Checkboxes
+            ['history_heart_disease', 'history_liver_disease', 'history_kidney_disease', 'history_diabetes', 'history_hypertension']
+                .forEach(field => {
+                    const el = form.querySelector(`[name="${field}"]`);
+                    if (el) data[field] = el.checked ? 1 : 0;
+                });
+
+            // Investigations
+            data.investigations = [];
+            document.querySelectorAll('#investigationsBody tr').forEach(row => {
+                const name = row.querySelector('[name="inv_name[]"]')?.value;
+                if (name) {
+                    data.investigations.push({
+                        examination_name: name,
+                        results: row.querySelector('[name="inv_results[]"]')?.value,
+                        date_performed: row.querySelector('[name="inv_date[]"]')?.value
+                    });
+                }
+            });
+
+            // Treatments
+            data.treatments = [];
+            document.querySelectorAll('#treatmentsBody tr').forEach(row => {
+                const name = row.querySelector('[name="med_name[]"]')?.value;
+                if (name) {
+                    data.treatments.push({
+                        medication_name: name,
+                        dosage: row.querySelector('[name="med_dosage[]"]')?.value,
+                        route: row.querySelector('[name="med_route[]"]')?.value,
+                        frequency: row.querySelector('[name="med_frequency[]"]')?.value,
+                        duration: row.querySelector('[name="med_duration[]"]')?.value,
+                        date_prescribed: row.querySelector('[name="med_date[]"]')?.value
+                    });
+                }
+            });
+
+            return data;
+        }
+
+        function setFormData(data) {
+            recordId = data.fam_general_info_id;
+            document.getElementById('recordBadge').style.display = 'block';
+            document.getElementById('recordIdDisplay').textContent = recordId;
+
+            // Simple fields
+            Object.keys(data).forEach(key => {
+                const el = document.querySelector(`[name="${key}"]`);
+                if (el) {
+                    if (el.type === 'checkbox') el.checked = data[key];
+                    else el.value = data[key] || '';
+                }
+            });
+
+            // Investigations
+            document.getElementById('investigationsBody').innerHTML = '';
+            (data.investigations || []).forEach(inv => addInvestigationRow(inv));
+            if ((data.investigations || []).length === 0) addInvestigationRow();
+
+            // Treatments
+            document.getElementById('treatmentsBody').innerHTML = '';
+            (data.treatments || []).forEach(t => addTreatmentRow(t));
+            if ((data.treatments || []).length === 0) addTreatmentRow();
+
+            // Toggle sections
+            togglePartnerSection();
+            toggleSurgicalFields();
+
+            // Update URL
+            const url = new URL(window.location.href);
+            url.searchParams.set('id', recordId);
+            window.history.pushState({}, '', url);
+        }
+
+        async function saveRecord() {
+            const btn = document.getElementById('submitBtn');
+            btn.disabled = true;
+            btn.innerHTML = '<span class="spinner-border spinner-border-sm"></span> Submitting...';
+
+            try {
+                const data = getFormData();
+                const url = `${API_BASE}?section=full-record`;
+
+                const response = await fetch(url, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ section: 'full-record', ...data, patient_id: recordId })
+                });
+
+                const result = await response.json();
+
+                if (!response.ok) throw new Error(result.error || 'Failed to save');
+
+                recordId = result.record_id;
+                document.getElementById('recordBadge').style.display = 'block';
+                document.getElementById('recordIdDisplay').textContent = recordId;
+
+                const url2 = new URL(window.location.href);
+                url2.searchParams.set('id', recordId);
+                window.history.pushState({}, '', url2);
+
+                showAlert('Record saved successfully!', 'success');
+            } catch (err) {
+                showAlert('Error: ' + err.message, 'danger');
+            }
+
+            btn.disabled = false;
+            btn.innerHTML = '<i class="fas fa-check"></i> Submit';
+        }
+
+        async function loadRecord(id) {
+            try {
+                const url = `${API_BASE}?section=full-record&record_id=${id}`;
+                const response = await fetch(url);
+                const data = await response.json();
+
+                if (!response.ok) throw new Error(data.error || 'Failed to load');
+
+                setFormData(data);
+                showAlert('Record loaded successfully!', 'success');
+            } catch (err) {
+                showAlert('Error loading record: ' + err.message, 'danger');
+            }
+        }
+
+        function showAlert(message, type) {
+            const alert = document.getElementById('alertMessage');
+            const text = document.getElementById('alertText');
+            alert.className = `alert alert-${type} alert-dismissible fade show`;
+            text.textContent = message;
+            alert.style.display = 'block';
+            setTimeout(() => alert.style.display = 'none', 3000);
+        }
+    </script>
+</body>
+</html>
